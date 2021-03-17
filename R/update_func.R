@@ -1,7 +1,8 @@
 #' Update Function
 #'
 #' Implements the scSorter method by iteratively running \code{update_mu} and \code{update_C}.
-#'
+#' @keywords internal
+#' 
 #' @param dat A matrix of input data.
 #' @param design_mat An indicator variable matrix records specified marker genes of each cell type.
 #' @param weightmat A matrix of weights assigned to each marker gene.

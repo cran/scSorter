@@ -19,3 +19,4 @@ A matrix of parameter estimates.
 \description{
 Solves mu and delta given sample cluster assignment.
 }
+\keyword{internal}

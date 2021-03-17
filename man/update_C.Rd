@@ -16,3 +16,4 @@ update_C(dat, mu_mat, designmat)
 \description{
 Updates cluster assignments based on center estimates from \code{update_mu}
 }
+\keyword{internal}

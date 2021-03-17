@@ -32,3 +32,4 @@ A list contains parameter estimates, type assignments, and the corresponding cos
 \description{
 Implements the scSorter method by iteratively running \code{update_mu} and \code{update_C}.
 }
+\keyword{internal}

@@ -17,3 +17,4 @@ A list contains processed design matrix and weight matrix.
 \description{
 Builds the design matrix required by \code{update_func} based on user input.
 }
+\keyword{internal}

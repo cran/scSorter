@@ -1,6 +1,7 @@
 #' Preprocess Data
 #'
 #' This function validates and preprocesses the input data for the downstream analysis.
+#' @keywords internal
 #'
 #' @param expr A matrix of input data. Each row represents a gene and each column represents a cell.
 #' @param anno_processed A list of processed annotation information that consists of the design matrix and the weight matrix for marker genes.

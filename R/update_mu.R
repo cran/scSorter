@@ -1,7 +1,8 @@
 #' Mu Update
 #'
 #' Solves mu and delta given sample cluster assignment.
-#'
+#' @keywords internal
+#' 
 #' @param dat A matrix of input data.
 #' @param designmat An indicator variable matrix records marker genes of each pre-specified cell type.
 #' @param clus A vector of cluster assignment.

@@ -17,3 +17,4 @@ A list contains processed expression matrix, design matrix, and weight matrix.
 \description{
 This function validates and preprocesses the input data for the downstream analysis.
 }
+\keyword{internal}

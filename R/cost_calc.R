@@ -1,7 +1,8 @@
 #' Cost Function
 #'
 #' Calculates the cost.
-#'
+#' @keywords internal
+#' 
 #' @param dat A matrix of input data.
 #' @param clus A vector of predicted cell types.
 #' @param mu Parameter estimates from \code{update_mu}.

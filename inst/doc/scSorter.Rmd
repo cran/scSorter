@@ -27,7 +27,6 @@ references:
     year: 2018
     month: 10
 ---
-
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -35,7 +34,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The scSorter package implements the semi-supervised cell type assignment algorithm described in "scSorter: assigning cells to known cell types according to known marker genes" (not yet published). This algorithm assigns cells to known cell types, assuming that the identities of marker genes are given but the exact expression levels of marker genes are unavailable. This vignette will illustrate the steps to apply the algorithm to single-cell RNA sequencing (scRNA-seq) data.
+The scSorter package implements the semi-supervised cell type assignment algorithm described in "scSorter: assigning cells to known cell types according to known marker genes". This algorithm assigns cells to known cell types, assuming that the identities of marker genes are given but the exact expression levels of marker genes are unavailable. This vignette will illustrate the steps to apply the algorithm to single-cell RNA sequencing (scRNA-seq) data.
 
 ## Section 1 - Preliminaries
 scSorter takes as input data the expression matrix from single-cell RNA sequencing and the annotation file that specifies the names of marker genes for each cell type of interest. scSorter assumes the input expression data have been properly normalized for the library size and have been properly transformed (e.g. log-transformation) to stabilize the variance.
@@ -71,21 +70,20 @@ The annotation file could be stored in a matrix or a data frame. Two columns, "T
 Now that the formats of these data are correct, we could proceed to the next step.
 
 ## Section 2 - Preprocessing the data
-scSorter does not need all genes from the original expression matrix to conduct cell type assignment. Instead, it uses only marker genes and a selected group of highly variable genes other than marker genes to conduct the analysis. scSorter also requires the input expression data to be properly normalized for the library size and properly transformed to stabilize the variance. There are plenty of packages that could preprocess the data. Here, we use the package Seurat to illustrate this step.
+scSorter does not need all genes from the original expression matrix to conduct cell type assignment. Instead, it uses only marker genes and a selected group of highly variable genes other than marker genes to conduct the analysis. scSorter also requires the input expression data to be properly normalized for the library size and properly transformed to stabilize the variance. Here is a simple example of how this can be done:
 
-First, we normalize and transform the data with NormalizeData() function.
+Choose highly variable genes.
 ```{r}
-library(Seurat)
-expr_obj = CreateSeuratObject(expr)
-expr_obj <- NormalizeData(expr_obj, normalization.method = "LogNormalize", scale.factor = 10000, verbose = F)
+topgenes = xfindvariable_genes(expr, ngenes = 2000)
 ```
 
-Then, we choose highly variable genes by FindVariableFeatures() function. We also filter out genes with non-zero expression in less than 10% of total cells.
+Normalize the input data.
 ```{r}
-expr_obj <- FindVariableFeatures(expr_obj, selection.method = "vst", nfeatures = 2000, verbose = F)
-topgenes <- head(VariableFeatures(expr_obj), 2000)
+expr = xnormalize_scData(expr)
+```
 
-expr = GetAssayData(expr_obj)
+We also filter out genes with non-zero expression in less than 10% of total cells.
+```{r}
 topgene_filter = rowSums(as.matrix(expr)[topgenes, ]!=0) > ncol(expr)*.1
 topgenes = topgenes[topgene_filter]
 ```
@@ -94,6 +92,31 @@ At last, we subset the preprocessed expression data. Now, we are ready to run sc
 ```{r}
 picked_genes = unique(c(anno$Marker, topgenes))
 expr = expr[rownames(expr) %in% picked_genes, ]
+```
+
+The above code is only for showing the concept. In practice, there are plenty of packages that could preprocess the data. Here, we use the package Seurat to illustrate this step (please remove the # mark in the code when you run it).
+
+First, we normalize and transform the data with NormalizeData() function.
+```{r}
+#library(Seurat)
+#expr_obj = CreateSeuratObject(expr)
+#expr_obj <- NormalizeData(expr_obj, normalization.method = "LogNormalize", scale.factor = 10000, verbose = F)
+```
+
+Then, we choose highly variable genes by FindVariableFeatures() function. We also filter out genes with non-zero expression in less than 10% of total cells.
+```{r}
+#expr_obj <- FindVariableFeatures(expr_obj, selection.method = "vst", nfeatures = 2000, verbose = F)
+#topgenes <- head(VariableFeatures(expr_obj), 2000)
+
+#expr = GetAssayData(expr_obj)
+#topgene_filter = rowSums(as.matrix(expr)[topgenes, ]!=0) > ncol(expr)*.1
+#topgenes = topgenes[topgene_filter]
+```
+
+At last, we subset the preprocessed expression data. Now, we are ready to run scSorter.
+```{r}
+#picked_genes = unique(c(anno$Marker, topgenes))
+#expr = expr[rownames(expr) %in% picked_genes, ]
 ```
 
 ## Section 3 - Running scSorter

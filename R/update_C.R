@@ -1,7 +1,8 @@
 #' Update Cluster
 #'
 #' Updates cluster assignments based on center estimates from \code{update_mu}
-#'
+#' @keywords internal
+#' 
 #' @param dat A matrix of input data.
 #' @param mu_mat Center estimates from \code{update_mu}
 #' @param designmat An indicator variable matrix records specified marker genes of each cell type.

@@ -1,7 +1,8 @@
 #' Design Matrix Builder
 #'
 #' Builds the design matrix required by \code{update_func} based on user input.
-#'
+#' @keywords internal
+#' 
 #' @param anno A matrix or data frame that contains marker genes specified for cell types of interest.
 #' @param weight The default weight assigned to marker genes.
 #'

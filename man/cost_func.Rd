@@ -18,3 +18,4 @@ cost_func(dat, clus, mu, designmat)
 \description{
 Calculates the cost.
 }
+\keyword{internal}
